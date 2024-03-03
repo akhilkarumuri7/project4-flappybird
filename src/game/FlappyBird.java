@@ -10,6 +10,7 @@ NOTE: This class is the metaphorical "main method" of your program,
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 class FlappyBird extends Game {
@@ -45,22 +46,35 @@ class FlappyBird extends Game {
 	BirdElement b = new BirdElement(birdPoints, blockPosition, 0);
 	ArrayList<PipeElement> pipes = new ArrayList<PipeElement>();
 
-	ObstacleElement o = new ObstacleElement(obstaclePoints, new Point(100, 100), 3);
+	ArrayList<ObstacleElement> obstacles = new ArrayList<ObstacleElement>();
 
 	public void addPipe(boolean started) {
 		int space = 150;
-		int h = 100 + random.nextInt(450);
+		int h = 100 + random.nextInt(300);
 		Point[] upperPipePoints = { new Point(0, 0), new Point(50, 0), new Point(50, h),
 				new Point(0, h) };
-		Point[] lowerPipePoints = { new Point(0, 0), new Point(50, 0), new Point(50, 510),
-				new Point(0, 510) };
+		Point[] lowerPipePoints = { new Point(0, 0), new Point(50, 0),
+				new Point(50, 600 - h - 150), new Point(0, 600 - h - 150) };
 
 		pipes.add(new PipeElement(upperPipePoints,
 				new Point(300 + pipes.size() * space, 0), 0));
 
 		pipes.add(new PipeElement(lowerPipePoints,
-				new Point(300 + (pipes.size() - 1) * space, h + 300), 0));
+				new Point(300 + (pipes.size() - 1) * space, h + 150), 0));
 
+	}
+
+	public void addObstacle() {
+		int numObstacles = random.nextInt(3); // Generate random number of obstacles
+												// between 0 and 2
+		int space = 150;
+		int h = 100 + random.nextInt(300);
+		for (int i = 0; i < numObstacles; i++) {
+			obstacles.add(new ObstacleElement(obstaclePoints,
+					new Point(350 + (obstacles.size()) * space + random.nextInt(50),
+							100 + random.nextInt(300)),
+					0));
+		}
 	}
 
 	// single pipe element
@@ -85,6 +99,14 @@ class FlappyBird extends Game {
 
 			brush.setColor(Color.green.darker());
 
+			if (pipes.size() < 8) {
+				addPipe(started);
+			}
+
+			if (obstacles.size() < 10) {
+				addObstacle();
+			}
+
 		}
 		else {
 			brush.setColor(Color.white);
@@ -94,11 +116,13 @@ class FlappyBird extends Game {
 			brush.drawString("Score: " + counter / 2, width / 2 - 30, height / 2 + 20);
 		}
 
-		addPipe(started);
-
-		for (PipeElement p : pipes) {
-			p.move();
-			p.paint(brush);
+		Iterator<PipeElement> iteratorP = pipes.iterator();
+		while (iteratorP.hasNext()) {
+			PipeElement p = iteratorP.next();
+			if (!gameOver) {
+				p.move();
+				p.paint(brush);
+			}
 			if (!p.isScored()
 					&& p.position.getX() + p.getPoints()[1].getX() < b.position.getX()) {
 				p.setScored(true);
@@ -107,6 +131,35 @@ class FlappyBird extends Game {
 			if (b.collides(p)) {
 				gameOver = true;
 				p.stopMoving();
+			}
+			if (p.position.getX() <= 0) {
+				iteratorP.remove();
+			}
+		}
+
+		Iterator<ObstacleElement> iteratorO = obstacles.iterator();
+		while (iteratorO.hasNext()) {
+			ObstacleElement o = iteratorO.next();
+			if (!gameOver) {
+				o.move();
+				brush.setColor(Color.white);
+				o.paint(brush);
+			}
+
+			if (b.collides(o)) {
+				gameOver = true;
+			}
+			if (o.position.getX() <= 0) {
+				iteratorO.remove();
+			}
+
+			Iterator<PipeElement> iteratorP2 = pipes.iterator();
+			while (iteratorP2.hasNext()) {
+				PipeElement pipe = iteratorP2.next();
+				if (o.collides(pipe)) {
+					iteratorO.remove(); // Remove the obstacle if it collides with a pipe
+					break; // No need to check for collisions with other pipes
+				}
 			}
 		}
 

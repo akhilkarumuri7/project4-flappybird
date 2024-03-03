@@ -26,7 +26,7 @@ public class PipeElement extends Polygon {
 			xPoints[i] = (int) getPoints()[i].x;
 			yPoints[i] = (int) getPoints()[i].y;
 		}
-		brush.fillPolygon(xPoints, yPoints, n);
+		brush.drawPolygon(xPoints, yPoints, n);
 	}
 
 	public void move() {

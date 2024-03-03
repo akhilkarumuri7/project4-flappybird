@@ -23,7 +23,9 @@ public class ObstacleElement extends Polygon implements Element {
 
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
+		double velocity = -3;
+		position.setX(position.getX() + velocity);
+		rotate(3);
 
 	}
 
