@@ -59,7 +59,7 @@ class FlappyBird extends Game {
 				new Point(300 + pipes.size() * space, 0), 0));
 
 		pipes.add(new PipeElement(lowerPipePoints,
-				new Point(300 + (pipes.size() - 1) * space, 610), 0));
+				new Point(300 + (pipes.size() - 1) * space, 600), 0));
 
 	}
 
