@@ -59,6 +59,10 @@ class Polygon {
 		return points;
 	}
 
+	public void setPoints(Point[] points) {
+		this.shape = points.clone();
+	}
+
 	// "contains" implements some magical math (i.e. the ray-casting algorithm).
 	public boolean contains(Point point) {
 		Point[] points = getPoints();

@@ -10,6 +10,8 @@ public class PipeElement extends Polygon implements Element {
 	public PipeElement(Point[] inShape, Point inPosition, double inRotation, int width,
 			int height) {
 		super(inShape, inPosition, inRotation);
+		Point[] points = getPoints();
+		setPoints(points);
 		this.scored = false;
 		this.width = width;
 		this.height = height;

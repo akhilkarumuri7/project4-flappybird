@@ -19,8 +19,9 @@ class FlappyBird extends Game {
 	static int counter = 0;
 	static boolean gameOver = false;
 
-	// Inner class for generating pipes
+	// Inner class for generating pipes and obstacles
 	private PipeGenerator pipeGenerator;
+	private ObstacleGenerator obstacleGenerator;
 
 	// Instance variables
 	boolean started;
@@ -33,7 +34,8 @@ class FlappyBird extends Game {
 		this.requestFocus();
 		this.addKeyListener(b);
 		pipeGenerator = new PipeGenerator();
-		pipeGenerator.addPipe(started);
+		pipeGenerator.addPipe();
+		obstacleGenerator = new ObstacleGenerator();
 	}
 
 	// Array of points representing the bird's shape
@@ -63,7 +65,7 @@ class FlappyBird extends Game {
 
 	// Inner class for generating pipes
 	class PipeGenerator {
-		public void addPipe(boolean started) {
+		public void addPipe() {
 			int space = 150;
 			int h = 100 + random.nextInt(300); // Height of the gap between pipes
 			int yTopPipe = 0; // Y-coordinate of the top pipe
@@ -83,21 +85,24 @@ class FlappyBird extends Game {
 
 			// Add lower pipe
 			pipes.add(new PipeElement(lowerPipePoints,
-					new Point(300 + (pipes.size() - 1) * space, yBottomPipe), 0, 50, 610 - yBottomPipe));
+					new Point(300 + (pipes.size() - 1) * space, yBottomPipe), 0, 50,
+					610 - yBottomPipe));
 		}
 	}
 
-	// Method to add obstacles
-	public void addObstacle() {
-		int numObstacles = random.nextInt(3); // Generate random number of obstacles
-												// between 0 and 2
-		int space = 150;
-		int h = 100 + random.nextInt(300);
-		for (int i = 0; i < numObstacles; i++) {
-			obstacles.add(new ObstacleElement(obstaclePoints,
-					new Point(350 + (obstacles.size()) * space + random.nextInt(50),
-							100 + random.nextInt(300)),
-					0));
+	// Inner class for generating obstacles
+	class ObstacleGenerator {
+		public void addObstacle() {
+			int numObstacles = random.nextInt(3); // Generate random number of obstacles
+			// between 0 and 2
+			int space = 150;
+			int h = 100 + random.nextInt(300);
+			for (int i = 0; i < numObstacles; i++) {
+				obstacles.add(new ObstacleElement(obstaclePoints,
+						new Point(350 + (obstacles.size()) * space + random.nextInt(50),
+								100 + random.nextInt(300)),
+						0));
+			}
 		}
 	}
 
@@ -121,18 +126,19 @@ class FlappyBird extends Game {
 			brush.drawString("Score is " + counter / 2, 10, 10);
 
 			// Move and draw bird
+			brush.setColor(Color.yellow);
 			b.move();
 			b.paint(brush);
 
 			// Generate pipes if needed
 			brush.setColor(Color.green.darker());
 			if (pipes.size() < 8) {
-				pipeGenerator.addPipe(started);
+				pipeGenerator.addPipe();
 			}
 
 			// Generate obstacles if needed
 			if (obstacles.size() < 10) {
-				addObstacle();
+				obstacleGenerator.addObstacle();
 			}
 		}
 		else {
