@@ -1,14 +1,18 @@
 package game;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
-public class PipeElement extends Polygon {
+public class PipeElement extends Polygon implements Element {
 	private boolean scored;
 	int width, height;
 
-	public PipeElement(Point[] inShape, Point inPosition, double inRotation) {
+	public PipeElement(Point[] inShape, Point inPosition, double inRotation, int width,
+			int height) {
 		super(inShape, inPosition, inRotation);
 		this.scored = false;
+		this.width = width;
+		this.height = height;
 	}
 
 	public boolean isScored() {
@@ -19,15 +23,19 @@ public class PipeElement extends Polygon {
 		this.scored = scored;
 	}
 
-	public void paint(Graphics brush) {
-		int n = getPoints().length;
-		int[] xPoints = new int[n], yPoints = new int[n];
+	@Override
+	public Point[] getPoints() {
+		ArrayList<Point> points = new ArrayList<>();
+		points.add(new Point((int) position.getX(), (int) position.getY()));
+		points.add(new Point((int) position.getX() + width, (int) position.getY()));
+		points.add(
+				new Point((int) position.getX() + width, (int) position.getY() + height));
+		points.add(new Point((int) position.getX(), (int) position.getY() + height));
+		return points.toArray(new Point[0]);
+	}
 
-		for (int i = 0; i < getPoints().length; i++) {
-			xPoints[i] = (int) getPoints()[i].x;
-			yPoints[i] = (int) getPoints()[i].y;
-		}
-		brush.drawPolygon(xPoints, yPoints, n);
+	public void paint(Graphics brush) {
+		brush.fillRect((int) position.getX(), (int) position.getY(), width, height);
 	}
 
 	public void move() {
