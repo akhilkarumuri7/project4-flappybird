@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 public class PipeElement extends Polygon {
 	private boolean scored;
+	int width, height;
 
 	public PipeElement(Point[] inShape, Point inPosition, double inRotation) {
 		super(inShape, inPosition, inRotation);

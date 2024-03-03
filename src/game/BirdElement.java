@@ -30,7 +30,7 @@ public class BirdElement extends Polygon implements Element, KeyListener {
 		verticalVelocity += gravity;
 
 		if (forward) {
-			verticalVelocity = -10;
+			verticalVelocity = -8;
 			forward = false;
 		}
 

@@ -16,6 +16,7 @@ import java.util.Random;
 class FlappyBird extends Game {
 	static int counter = 0;
 	static boolean gameOver = false;
+	private PipeGenerator pipeGenerator;
 
 	boolean started;
 	Random random = new Random();
@@ -25,7 +26,8 @@ class FlappyBird extends Game {
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(b);
-		addPipe(started);
+		pipeGenerator = new PipeGenerator();
+		pipeGenerator.addPipe(started);
 	}
 
 	Point[] birdPoints = { new Point(0, 0), new Point(10, 0), new Point(10, 10),
@@ -48,20 +50,21 @@ class FlappyBird extends Game {
 
 	ArrayList<ObstacleElement> obstacles = new ArrayList<ObstacleElement>();
 
-	public void addPipe(boolean started) {
-		int space = 150;
-		int h = 100 + random.nextInt(300);
-		Point[] upperPipePoints = { new Point(0, 0), new Point(50, 0), new Point(50, h),
-				new Point(0, h) };
-		Point[] lowerPipePoints = { new Point(0, 0), new Point(50, 0),
-				new Point(50, 600 - h - 150), new Point(0, 600 - h - 150) };
+	class PipeGenerator {
+		public void addPipe(boolean started) {
+			int space = 150;
+			int h = 100 + random.nextInt(300);
+			Point[] upperPipePoints = { new Point(0, 0), new Point(50, 0),
+					new Point(50, h), new Point(0, h) };
+			Point[] lowerPipePoints = { new Point(0, 0), new Point(50, 0),
+					new Point(50, 600 - h - 150), new Point(0, 600 - h - 150) };
 
-		pipes.add(new PipeElement(upperPipePoints,
-				new Point(300 + pipes.size() * space, 0), 0));
+			pipes.add(new PipeElement(upperPipePoints,
+					new Point(300 + pipes.size() * space, 0), 0));
 
-		pipes.add(new PipeElement(lowerPipePoints,
-				new Point(300 + (pipes.size() - 1) * space, h + 150), 0));
-
+			pipes.add(new PipeElement(lowerPipePoints,
+					new Point(300 + (pipes.size() - 1) * space, 610), 0));
+		}
 	}
 
 	public void addObstacle() {
@@ -100,7 +103,7 @@ class FlappyBird extends Game {
 			brush.setColor(Color.green.darker());
 
 			if (pipes.size() < 8) {
-				addPipe(started);
+				pipeGenerator.addPipe(started);
 			}
 
 			if (obstacles.size() < 10) {
