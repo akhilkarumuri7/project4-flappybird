@@ -30,7 +30,7 @@ public class PipeElement extends Polygon {
 	}
 
 	public void move() {
-		double velocity = -1;
+		double velocity = -3;
 		position.setX(position.getX() + velocity);
 	}
 

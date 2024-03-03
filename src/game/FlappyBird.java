@@ -49,17 +49,17 @@ class FlappyBird extends Game {
 
 	public void addPipe(boolean started) {
 		int space = 150;
-		int h = 100 + random.nextInt(400);
+		int h = 100 + random.nextInt(450);
 		Point[] upperPipePoints = { new Point(0, 0), new Point(50, 0), new Point(50, h),
 				new Point(0, h) };
-		Point[] lowerPipePoints = { new Point(0, 0), new Point(0, 100),
-				new Point(50, 100), new Point(50, 0) };
+		Point[] lowerPipePoints = { new Point(0, 0), new Point(50, 0), new Point(50, 510),
+				new Point(0, 510) };
 
 		pipes.add(new PipeElement(upperPipePoints,
 				new Point(300 + pipes.size() * space, 0), 0));
 
 		pipes.add(new PipeElement(lowerPipePoints,
-				new Point(300 + (pipes.size() - 1) * space, 600), 0));
+				new Point(300 + (pipes.size() - 1) * space, h + 300), 0));
 
 	}
 
