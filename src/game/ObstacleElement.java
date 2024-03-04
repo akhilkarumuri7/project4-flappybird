@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Graphics;
+import java.util.function.Consumer;
 
 public class ObstacleElement extends Polygon implements Element {
 
@@ -25,12 +26,12 @@ public class ObstacleElement extends Polygon implements Element {
 	public void move() {
 		double velocity = -3;
 		position.setX(position.getX() + velocity);
-		rotate(3);
+		rotateAction.accept(3);
+		//rotate(3);
 
 	}
 
-	public void rotate(int degrees) {
-		rotation = (rotation + degrees) % 360;
-	}
-
+	Consumer<Integer> rotateAction = degrees -> {
+	    rotation = (rotation + degrees) % 360;
+	};
 }
