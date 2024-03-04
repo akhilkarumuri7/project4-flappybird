@@ -9,6 +9,14 @@ NOTE: This class is the metaphorical "main method" of your program,
 */
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.MenuComponent;
+import java.awt.PopupMenu;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -18,7 +26,7 @@ class FlappyBird extends Game {
 	// Static variables for game score and game over state
 	static int counter = 0;
 	static boolean gameOver = false;
-
+	
 	// Inner class for generating pipes and obstacles
 	private PipeGenerator pipeGenerator;
 	private ObstacleGenerator obstacleGenerator;
@@ -37,6 +45,7 @@ class FlappyBird extends Game {
 		pipeGenerator.addPipe();
 		obstacleGenerator = new ObstacleGenerator();
 	}
+  
 
 	// Array of points representing the bird's shape
 	Point[] birdPoints = { new Point(0, 0), new Point(10, 0), new Point(10, 10),
@@ -105,6 +114,20 @@ class FlappyBird extends Game {
 			}
 		}
 	}
+	
+	//anonymous class for the game over screen 
+	Element gameOverScreen = new Element() {
+		public void paint(Graphics brush) {
+            // Draw game over screen elements
+            brush.setColor(Color.white);
+            brush.fillRect(0, 0, width, height);
+            brush.setColor(Color.black);
+            brush.drawString("Game Over", width / 2 - 50, height / 2);
+            brush.drawString("Score: " + counter / 2, width / 2 - 30, height / 2 + 20);
+        }
+		 public void move() {
+       }
+	};
 
 	// Paint method to render game elements
 	public void paint(Graphics brush) {
@@ -142,13 +165,9 @@ class FlappyBird extends Game {
 			}
 		}
 		else {
-			// Game over screen
-			brush.setColor(Color.white);
-			brush.fillRect(0, 0, width, height);
-			brush.setColor(Color.black);
-			brush.drawString("Game Over", width / 2 - 50, height / 2);
-			brush.drawString("Score: " + counter / 2, width / 2 - 30, height / 2 + 20);
+			 gameOverScreen.paint(brush);
 		}
+			
 
 		// Iterate over pipes
 		Iterator<PipeElement> iteratorP = pipes.iterator();
