@@ -9,25 +9,39 @@ NOTE: This class is the metaphorical "main method" of your program,
 */
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.MenuComponent;
+import java.awt.PopupMenu;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-//FlappyBird class, extends the Game class
+/**
+ * FlappyBird class represents the main control center of the Flappy Bird game.
+ * It extends the Game class and manages the game's elements, rendering, and game logic.
+ */
 class FlappyBird extends Game {
 	// Static variables for game score and game over state
 	static int counter = 0;
 	static boolean gameOver = false;
-
+	
 	// Inner class for generating pipes and obstacles
 	private PipeGenerator pipeGenerator;
 	private ObstacleGenerator obstacleGenerator;
 
-	// Instance variables
 	boolean started;
 	Random random = new Random();
 
-	// Constructor
+	/**
+     * Constructor for FlappyBird class.
+     * Initializes the game with a specified title and dimensions, sets focus, 
+     * and adds key listener.
+     */
 	public FlappyBird() {
 		super("Flappy Bird!", 430, 770);
 		this.setFocusable(true);
@@ -37,6 +51,7 @@ class FlappyBird extends Game {
 		pipeGenerator.addPipe();
 		obstacleGenerator = new ObstacleGenerator();
 	}
+  
 
 	// Array of points representing the bird's shape
 	Point[] birdPoints = { new Point(0, 0), new Point(10, 0), new Point(10, 10),
@@ -105,23 +120,32 @@ class FlappyBird extends Game {
 			}
 		}
 	}
-
-	// anonymous class for the game over screen
+	
+	//anonymous class for the game over screen 
 	Element gameOverScreen = new Element() {
 		public void paint(Graphics brush) {
-			// Draw game over screen elements
-			brush.setColor(Color.white);
-			brush.fillRect(0, 0, width, height);
-			brush.setColor(Color.black);
-			brush.drawString("Game Over", width / 2 - 50, height / 2);
-			brush.drawString("Score: " + counter / 2, width / 2 - 30, height / 2 + 20);
-		}
-
-		public void move() {
-		}
+            // Draw game over screen elements
+            brush.setColor(Color.white);
+            brush.fillRect(0, 0, width, height);
+            brush.setColor(Color.black);
+            brush.drawString("Game Over", width / 2 - 50, height / 2);
+            brush.drawString("Score: " + counter / 2, width / 2 - 30, height / 2 + 20);
+        }
+		 public void move() {
+       }
 	};
-
-	// Paint method to render game elements
+	
+	
+	 /**
+     * Paint method to render game elements.
+     * Draws background, ground, sky, score, bird, pipes, obstacles, and game over screen.
+     * Manages game rendering based on game state (running or over).
+     * Also uses anonymous class to paint game over screen when collision happens
+     * Uses Iterator to iterate through the pipes and obstacles and draws them 
+     * and checks to see if they collide with bird element and then removes then 
+     * once they are off the frame. 
+     * @param brush The Graphics object used for drawing.
+     */
 	public void paint(Graphics brush) {
 		if (!gameOver) {
 			// Draw background
@@ -157,8 +181,9 @@ class FlappyBird extends Game {
 			}
 		}
 		else {
-			gameOverScreen.paint(brush);
+			 gameOverScreen.paint(brush);
 		}
+			
 
 		// Iterate over pipes
 		Iterator<PipeElement> iteratorP = pipes.iterator();
@@ -218,8 +243,12 @@ class FlappyBird extends Game {
 			}
 		}
 	}
-
-	// Main method to start the game
+	
+	/**
+     * Main method to start the game.
+     * Creates a new instance of FlappyBird and initiates the game rendering.
+     * @param args The command-line arguments.
+     */
 	public static void main(String[] args) {
 		FlappyBird a = new FlappyBird();
 		a.repaint();
