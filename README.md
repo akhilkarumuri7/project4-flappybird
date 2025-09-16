@@ -33,7 +33,7 @@ javac -d out $(find src -name "*.java")
 
 # Run the game
 java -cp out game.FlappyBird
-
+```
 ## Project Write-up
 
 This project was originally developed as part of **CMSC132 (Spring 2023)** by Dev Patel and Akhil Karumuri.  
