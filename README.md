@@ -43,7 +43,7 @@ Our full write-up (PDF) describes the planning, design decisions, challenges, an
 - [Demo Video](https://youtu.be/FixwEll1Nyc?si=5QTjfYViUDA8_quE)
 
 Key reflections:
-- We benefited from careful planning before coding, which helped structure the game efficiently:contentReference[oaicite:0]{index=0}.  
-- Implementing random pipe heights while keeping spacing constant was tricky and took more time than expected:contentReference[oaicite:1]{index=1}.  
-- The project helped us practice **inner/anonymous classes, lambda expressions, KeyListeners, and GUI painting**, which were new concepts for us at the time:contentReference[oaicite:2]{index=2}.  
-- With more time, we would’ve liked to add **new game modes** (coins, moving pipes, themes) to expand the gameplay:contentReference[oaicite:3]{index=3}.
+- We benefited from careful planning before coding, which helped structure the game efficiently.  
+- Implementing random pipe heights while keeping spacing constant was tricky and took more time than expected.  
+- The project helped us practice **inner/anonymous classes, lambda expressions, KeyListeners, and GUI painting**, which were new concepts for us at the time.  
+- With more time, we would’ve liked to add **new game modes** (coins, moving pipes, themes) to expand the gameplay.
